@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { addColor, countColors, findColors, findColor } = require("./lib");
+const { ApolloServer, gql } = require('apollo-server');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
+const { addColor, countColors, findColors, findColor } = require('./lib');
 
 const typeDefs = gql`
   scalar DateTime
@@ -26,9 +27,11 @@ const resolvers = {
 
 const start = async () => {
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req }) => ({
+    schema: buildSubgraphSchema({
+      typeDefs,
+      resolvers,
+    }),
+    context: () => ({
       countColors,
       findColors,
       addColor,
