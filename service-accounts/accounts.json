@@ -10,5 +10,11 @@
     "name": "Alex Banks",
     "password": "$2b$10$4fkF68s2PmoI3t.c.z3hcu9xDRAKiuyxFollQiCHvWttNtm4Q3hnC",
     "created": "2019-10-25T03:07:08.521Z"
+  },
+  {
+    "email": "jane@example.com",
+    "name": "Jane Doe",
+    "password": "$2b$10$SfrVkCjZOjFeci46xITkcOCPamEFyWXQg1ogUiF8vw3wCeNs9zV5y",
+    "created": "2021-11-12T06:11:32.625Z"
   }
 ]
