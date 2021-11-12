@@ -1,16 +1,18 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { buildSubgraphSchema } = require("@apollo/subgraph");
+const { ApolloServer, gql } = require('apollo-server');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
 const {
   addReview,
   findAllItemReviews,
   countReviews,
   findReviews,
-  findReviewById
-} = require("./lib");
+  findReviewById,
+} = require('./lib');
 
 const typeDefs = gql`
-  type Review @key(fields: "id") {
+  type Review {
     id: ID!
+    comment: String
+    rating: Int
   }
   type Query {
     totalReviews: Int!
@@ -20,11 +22,9 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    totalReviews: (_, __, { countReviews, appID }) =>
-      countReviews(appID),
-    allReviews: (_, __, { findReviews, appID }) =>
-      findReviews(appID)
-  }
+    totalReviews: (_, __, { countReviews, appID }) => countReviews(appID),
+    allReviews: (_, __, { findReviews, appID }) => findReviews(appID),
+  },
 };
 
 const start = async () => {
@@ -32,8 +32,8 @@ const start = async () => {
     schema: buildSubgraphSchema([
       {
         resolvers,
-        typeDefs
-      }
+        typeDefs,
+      },
     ]),
     context({ req }) {
       return {
@@ -42,14 +42,13 @@ const start = async () => {
         addReview,
         findAllItemReviews,
         findReviewById,
-        appID: req.headers["app-id"]
+        appID: req.headers['app-id'],
       };
-    }
+    },
   });
+
   server.listen(process.env.PORT).then(({ url }) => {
-    console.log(
-      `⭐️ ⭐️ ⭐️ ⭐️ ⭐️  - Review service running at: ${url}`
-    );
+    console.log(`⭐️ ⭐️ ⭐️ ⭐️ ⭐️  - Review service running at: ${url}`);
   });
 };
 
