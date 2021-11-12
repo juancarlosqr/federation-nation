@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require("apollo-server");
-const lifts = require("./lift-data.json");
+const { ApolloServer, gql } = require('apollo-server');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
+const lifts = require('./lift-data.json');
 
 const typeDefs = gql`
   type Lift {
@@ -47,8 +48,10 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema: buildSubgraphSchema({
+    typeDefs,
+    resolvers,
+  }),
 });
 
 server.listen(process.env.PORT).then(({ url }) => {

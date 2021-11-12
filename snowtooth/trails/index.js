@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require("apollo-server");
-const trails = require("./trail-data.json");
+const { ApolloServer, gql } = require('apollo-server');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
+const trails = require('./trail-data.json');
 
 const typeDefs = gql`
   type Trail {
@@ -54,8 +55,10 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema: buildSubgraphSchema({
+    typeDefs,
+    resolvers,
+  }),
 });
 
 server.listen(process.env.PORT).then(({ url }) => {
